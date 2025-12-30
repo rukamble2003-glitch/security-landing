@@ -77,21 +77,50 @@ nav ul li a:hover {
     transition: all 0.3s ease;
 }
 
-#hero button:hover, #services div:hover {
+#hero button:hover {
     background: rgba(100, 255, 218, 0.1);
     transform: translateY(-3px); /* "Lift" effect on hover */
 }
 
 #services{
+    max-width: var(--container-width);
+    margin: 0 auto;           /* Centers the section */
+    padding: var(--section-padding);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* This line is magic: 3 equal columns */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
 }
 
-#services div{
-    background: transparent;
-    border: 1px solid var(--text-dark);
-    padding: 15px 30px;
-    font-size: 1rem;
-    cursor: pointer;
+#services div {
+    background: #0d1f3d;      /* Slightly lighter than primary blue */
+    padding: 40px;
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    border-radius: 8px;       /* Slightly rounded corners */
     transition: all 0.3s ease;
+}
+
+#services div h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+#services div p {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* Hover effect: Elevate the card and brighten the border */
+#services div:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- RESPONSIVE OVERRIDES (Always at the bottom) --- */
+@media (max-width: 768px) {
+    #services {
+        grid-template-columns: 1fr; /* This now successfully overrides the 3-column rule above */
+    }
 }

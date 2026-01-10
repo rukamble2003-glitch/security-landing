@@ -1,17 +1,4 @@
-const servicesData = [
-    {
-        title: "Penetration Testing",
-        desc: "Simulated cyberattacks to find vulnerabilities before the bad guys do."
-    },
-    {
-        title: "Vulnerability Assessment",
-        desc: "Comprehensive scans of your entire network infrastructure."
-    },
-    {
-        title: "Sanity Testing",
-        desc: "Ensuring your security patches don't break your existing system flow."
-    }
-];
+let servicesData = [];
 const contactForm = document.querySelector('form');
 const submitBtn = document.querySelector('.submit-btn');
 const submitBtnDefaultText = submitBtn.textContent;
@@ -45,7 +32,37 @@ renderSearch(e.target.value);
 });
 
 // Initial call to show all services on page load
-renderSearch();
+// 1. New function to get data from the internet
+async function fetchServices() {
+    try {
+        // The Request
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=6');
+        console.log(response);
+        // Convert the "raw" response into a JSON object (JavaScript can read this)
+        const data = await response.json();
+        console.log(data);
+
+        // 2. Map the API data to our format
+        // API gives us 'title' and 'body'. We want 'title' and 'desc'.
+        const liveServices = data.map(post => ({
+            title: post.title.substring(0, 20), // Shorten the title
+            desc: post.body
+        }));
+        console.log(liveServices);
+
+
+        // 3. Update our global data and render
+        servicesData = liveServices; 
+        renderSearch(); // Show them on the screen!
+
+    } catch (error) {
+        console.error("System Breach: Could not fetch data.", error);
+        servicesContainer.innerHTML = "<p>Error loading security data. Check connection.</p>";
+    }
+}
+
+// Start the process
+fetchServices();
 //----------------------------------submit action-----------------------------------------------
 contactForm.addEventListener('submit',function(event){
     event.preventDefault();

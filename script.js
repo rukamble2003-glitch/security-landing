@@ -35,12 +35,13 @@ renderSearch(e.target.value);
 // 1. New function to get data from the internet
 async function fetchServices() {
     try {
+        servicesContainer.innerHTML = "<p class='loading'>Scanning Secure Database...</p>";
         // The Request
         const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=6');
-        console.log(response);
+     
         // Convert the "raw" response into a JSON object (JavaScript can read this)
         const data = await response.json();
-        console.log(data);
+        
 
         // 2. Map the API data to our format
         // API gives us 'title' and 'body'. We want 'title' and 'desc'.
@@ -48,8 +49,6 @@ async function fetchServices() {
             title: post.title.substring(0, 20), // Shorten the title
             desc: post.body
         }));
-        console.log(liveServices);
-
 
         // 3. Update our global data and render
         servicesData = liveServices; 
@@ -63,7 +62,7 @@ async function fetchServices() {
 
 // Start the process
 fetchServices();
-//----------------------------------submit action-----------------------------------------------
+//----------------------------------Initialize Security Scan action-----------------------------------------------
 contactForm.addEventListener('submit',function(event){
     event.preventDefault();
     
@@ -77,6 +76,11 @@ contactForm.addEventListener('submit',function(event){
         
         // Reset the form fields
         contactForm.reset();
+
+        // Inside your existing success timer in script.js
+        localStorage.setItem('titan_auth', 'authorized_user'); // Give them a 'key'
+        localStorage.setItem('last_login', new Date().toLocaleString()); // Give them a 'key'
+        window.location.href = 'dashboard.html'; // Send them to the dashboard
 
         setTimeout(()=>{
             submitBtn.innerText =submitBtnDefaultText;

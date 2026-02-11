@@ -41,3 +41,36 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('isLoggedIn');
     window.location.href = 'index.html';
 });
+
+const alerts = [
+    "Unauthorized login attempt from 192.168.1.1",
+    "Firewall blocked suspicious packet",
+    "Encrypted handshake established",
+    "Database integrity check: 100%",
+    "New device connected: 'Admin_Laptop'"
+];
+
+const alertList = document.querySelector('#alert-list');
+
+function addLiveAlert() {
+    // 1. Pick a random alert from the array
+    const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
+    
+    // 2. Create a new list item
+    const li = document.createElement('li');
+    li.innerText = `[${new Date().toLocaleTimeString()}] ${randomAlert}`;
+    
+    // 3. Add a CSS class for the "Flash" effect
+    li.classList.add('new-alert');
+
+    // 4. Add it to the top of the list
+    alertList.prepend(li);
+
+    // 5. Keep only the last 5 alerts (Senior Cleanliness)
+    if (alertList.children.length > 5) {
+        alertList.removeChild(alertList.lastChild);
+    }
+}
+
+// Start the simulation!
+setInterval(addLiveAlert, 3000); // New alert every 3 seconds

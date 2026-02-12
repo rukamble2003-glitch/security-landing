@@ -72,5 +72,11 @@ function addLiveAlert() {
     }
 }
 
-// Start the simulation!
-setInterval(addLiveAlert, 3000); // New alert every 3 seconds
+const alertSpeed = document.querySelector('#alertSpeed');
+var myInterval = setInterval(addLiveAlert, alertSpeed.value);
+
+alertSpeed.addEventListener('change',()=>{
+    clearInterval(myInterval);
+    const alertSpeedValue = document.querySelector('#alertSpeed').value;
+    myInterval = setInterval(addLiveAlert, alertSpeedValue);
+})
